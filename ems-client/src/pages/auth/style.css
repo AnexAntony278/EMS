@@ -1,0 +1,117 @@
+.centered {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+.hero-frame {
+    position: absolute;
+    left: 50vw;
+    height: 100vh;
+    width: calc(1 / 2 * 100vw);
+    background-color: antiquewhite;
+}
+
+.login-frame {
+    left: 0;
+    height: 100vh;
+    width: calc(1/2 * 100vw);
+    color: blanchedalmond;
+
+}
+
+.signup-frame {
+    right: 0;
+    height: 100vh;
+    width: calc(1/2 * 100vw);
+    color: blanchedalmond;
+}
+
+form {
+    width: clamp(100px, 50%, 45vw);
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: start;
+    gap: 3px;
+
+    h1 {
+        align-self: center;
+        margin-bottom: 30px;
+    }
+
+    a {
+        justify-self: end;
+        align-self: flex-end;
+        color: #007bff;
+        text-decoration: wavy;
+    }
+
+    button {
+        height: clamp(30px, 35px, 60px);
+        width: clamp(150px, 30%, 300px);
+        border-radius: 30px;
+        background-color: #007bff;
+        color: #fff;
+        border: none;
+        cursor: pointer;
+        transition: background-color 0.3s ease, transform 0.2s ease;
+    }
+
+    button:hover {
+        background-color: #0056b3;
+        transform: scale(1.02);
+    }
+
+    input {
+        margin-bottom: 20px;
+        height: clamp(30px, 35px, 50px);
+        width: clamp(250px, 100%, 1000px);
+        border-radius: 5px;
+        padding: 0.5rem;
+        border: 1px solid #ddd;
+        outline: none;
+        font-size: 16px;
+    }
+
+    input:focus {
+        border-color: #007bff;
+    }
+}
+
+.error-message {
+    margin: 3px;
+    font-size: 14px;
+    color: rgb(255, 42, 0);
+    align-self: flex-end;
+}
+
+/* Animations */
+@keyframes hero-move-right {
+    0% {
+        left: 0px;
+    }
+
+    100% {
+        left: 50vw;
+    }
+}
+
+@keyframes hero-move-left {
+    0% {
+        left: 50vw;
+    }
+
+    100% {
+        left: 0px;
+    }
+}
+
+.move-right {
+    animation: hero-move-right 800ms ease-in forwards;
+}
+
+.move-left {
+    animation: hero-move-left 800ms ease-out forwards;
+}

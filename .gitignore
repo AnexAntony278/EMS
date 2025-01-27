@@ -36,3 +36,8 @@ backend/node_modules/
 # OS files
 .DS_Store
 Thumbs.db
+
+# Docker files
+*.docker/
+docker-compose.override.yml
+docker-compose.yml
