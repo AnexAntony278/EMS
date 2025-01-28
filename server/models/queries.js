@@ -1,17 +1,15 @@
-const db = require('../config/db_config');
+const db = require('../config/db_config.js')
 
-const isValidUser = (email, password) => {
-    try {
-        const query = 'SELECT * from users where email= ? AND password_hash= ? ;';
-        db.query(query, [email, password], (error, results, fields) => {
-            if (results.length === 0) {
-                return false
-            } else return true;
+const isValid = (email, password) => {
+    return new Promise((resolve, reject) => {
+        db.query('SELECT * FROM Users WHERE email = ? AND password_hash = ?;', [email, password], (error, results) => {
+            if (error) {
+                console.log(error);
+                return reject(error);
+            }
+            resolve(results.length != 0);
         });
-    } catch (err) {
-        console.error('Database query error:', err);
-        return false;
-    }
+    });
 };
 
-module.exports.isValidUser = isValidUser;
+module.exports = { isValid };

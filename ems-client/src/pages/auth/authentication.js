@@ -36,13 +36,12 @@ export const AuthPage = ({ authmode }) => {
         }
         if (!/^\S+@\S+\.\S+$/.test(loginEmail)) {
             setErrorMessage('enter a valid e-mail address.');
-            return;
         }
         if (!loginPassword.trim()) {
             setErrorMessage('password is required.');
             return;
         }
-        // LOGIN AUTH
+
         try {
             const response = await fetch(`${process.env.REACT_APP_API_URL}/login`, {
                 method: 'POST',
@@ -54,17 +53,15 @@ export const AuthPage = ({ authmode }) => {
                     password: loginPassword,
                 }),
             });
-
-            const result = await response.text();
+            const token = await response.text();
             if (response.status === 200) {
-                console.log(result); // "Signup successful!"
+                localStorage.setItem('token', token);
             } else if (response.status === 401) {
                 setErrorMessage('invalid email or password');
             } else {
                 setErrorMessage();
             }
         } catch (error) {
-            console.error('Error:', error);
             setErrorMessage('Something went wrong!');
         }
     }

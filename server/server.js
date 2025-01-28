@@ -1,22 +1,25 @@
 require('dotenv').config();
-const express = require('express');
 const cors = require('cors');
-const queries = require('./models/queries.js')
+const express = require('express');
 const app = express();
+app.use(express.json())
 app.use(cors());
-app.use(express.json());
+const jwt = require('jsonwebtoken');
 
-
-app.post('/login', (request, response) => {
-    const { email, password } = request.body;
-    if (queries.isValidUser(email, password)) {
-        response.status(200).send(`Auth suces for email : ${email} and pass: ${password}`);
-    } else {
-        response.status(401).send(`invalid email or password`);
-    }
+const query = require('./models/queries.js')
+app.post('/login', (req, res) => {
+    const { email, password } = req.body;
+    query.isValid(email, password).then((isValidUser) => {
+        if (isValidUser) {
+            const token = jwt.sign({ email }, process.env.JWT_SECRET_KEY, { expiresIn: '1hr' });
+            res.status(200).send(token);
+            console.log(token)
+        } else {
+            res.status(401).send('Login Failed');
+        }
+    })
 });
 
-
 app.listen(process.env.SERVER_PORT, () => {
-    console.log('\nServer Running..');
-})
+    console.log(`\nServer Running at ${process.env.SERVER_PORT}`);
+});
