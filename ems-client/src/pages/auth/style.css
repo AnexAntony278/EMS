@@ -1,3 +1,16 @@
+* {
+    margin: 0;
+    box-sizing: border-box;
+}
+
+.App {
+    text-align: center;
+    background-color: rgb(3, 12, 8);
+    height: 100vh;
+    font-family: Arial, sans-serif;
+    /* Replace with your desired font */
+}
+
 .centered {
     display: flex;
     flex-direction: column;
@@ -13,19 +26,19 @@
     background-color: antiquewhite;
 }
 
+.login-frame,
+.signup-frame {
+    height: 100vh;
+    width: calc(1 / 2 * 100vw);
+    color: blanchedalmond;
+}
+
 .login-frame {
     left: 0;
-    height: 100vh;
-    width: calc(1/2 * 100vw);
-    color: blanchedalmond;
-
 }
 
 .signup-frame {
     right: 0;
-    height: 100vh;
-    width: calc(1/2 * 100vw);
-    color: blanchedalmond;
 }
 
 form {
@@ -33,51 +46,56 @@ form {
     display: flex;
     flex-direction: column;
     justify-content: center;
-    align-items: start;
-    gap: 3px;
+    align-items: flex-start;
+    gap: 15px;
+    /* Increased gap for better spacing */
+}
 
-    h1 {
-        align-self: center;
-        margin-bottom: 30px;
-    }
+h1 {
+    align-self: center;
+    margin-bottom: 30px;
+    font-size: 2rem;
+    /* Adjust font size for title */
+}
 
-    a {
-        justify-self: end;
-        align-self: flex-end;
-        color: #007bff;
-        text-decoration: wavy;
-    }
+a {
+    color: #007bff;
+    text-decoration: wavy;
+    font-size: 1rem;
+    align-self: flex-end;
+}
 
-    button {
-        height: clamp(30px, 35px, 60px);
-        width: clamp(150px, 30%, 300px);
-        border-radius: 30px;
-        background-color: #007bff;
-        color: #fff;
-        border: none;
-        cursor: pointer;
-        transition: background-color 0.3s ease, transform 0.2s ease;
-    }
+button {
+    height: clamp(30px, 35px, 60px);
+    width: clamp(150px, 30%, 300px);
+    border-radius: 30px;
+    background-color: #007bff;
+    color: #fff;
+    border: none;
+    cursor: pointer;
+    transition: background-color 0.3s ease, transform 0.2s ease;
+    font-size: 1rem;
+    /* Ensures button text size matches form */
+}
 
-    button:hover {
-        background-color: #0056b3;
-        transform: scale(1.02);
-    }
+button:hover {
+    background-color: #0056b3;
+    transform: scale(1.02);
+}
 
-    input {
-        margin-bottom: 20px;
-        height: clamp(30px, 35px, 50px);
-        width: clamp(250px, 100%, 1000px);
-        border-radius: 5px;
-        padding: 0.5rem;
-        border: 1px solid #ddd;
-        outline: none;
-        font-size: 16px;
-    }
+input {
+    margin-bottom: 20px;
+    height: clamp(30px, 35px, 50px);
+    width: clamp(250px, 100%, 1000px);
+    border-radius: 5px;
+    padding: 0.5rem;
+    border: 1px solid #ddd;
+    outline: none;
+    font-size: 16px;
+}
 
-    input:focus {
-        border-color: #007bff;
-    }
+input:focus {
+    border-color: #007bff;
 }
 
 .error-message {
@@ -85,6 +103,57 @@ form {
     font-size: 14px;
     color: rgb(255, 42, 0);
     align-self: flex-end;
+}
+
+/* Styling for radio buttons */
+div.radio-group {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    gap: 15px;
+    /* Adding space between the radio buttons */
+    margin-bottom: 20px;
+    /* Space between radio buttons and form elements */
+}
+
+div.radio-group label {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    /* Space between radio button and label */
+    font-size: 1rem;
+    color: blanchedalmond;
+}
+
+input[type="radio"] {
+    appearance: none;
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    border-radius: 50%;
+    width: 20px;
+    height: 20px;
+    background-color: #ddd;
+    border: 2px solid #007bff;
+    transition: background-color 0.2s, transform 0.2s;
+}
+
+input[type="radio"]:checked {
+    background-color: #007bff;
+    transform: scale(1.1);
+}
+
+input[type="radio"]:checked+label {
+    font-weight: bold;
+}
+
+/* Hover effect for radio button */
+input[type="radio"]:hover {
+    background-color: #0056b3;
+}
+
+div.radio-group label:hover {
+    cursor: pointer;
+    color: #007bff;
 }
 
 /* Animations */

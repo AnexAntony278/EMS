@@ -1,17 +1,21 @@
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
+import { useNavigate } from 'react-router-dom'
+
 import { LoginHero, SignupHero } from './components/hero-page-contents'
+
 import './style.css'
 
 export const AuthPage = ({ authmode }) => {
-
     const [pageMode, setPageMode] = useState(authmode);
     const [loginEmail, setLoginEmail] = useState('');
     const [loginPassword, setLoginPassword] = useState('');
     const [signupUsername, setSignupUsername] = useState('');
     const [signupEmail, setSignupEmail] = useState('');
+    const [signupRole, setSignupRole] = useState('user');
     const [signupPassword, setSignupPassword] = useState('');
     const [signupConfirmPassword, setSignupConfirmPassword] = useState('');
     const [errorMessage, setErrorMessage] = useState('');
+    const navigate = useNavigate();
 
     const togglePageMode = () => {
         if (pageMode == 'signupMode') {
@@ -56,6 +60,7 @@ export const AuthPage = ({ authmode }) => {
             const token = await response.text();
             if (response.status === 200) {
                 localStorage.setItem('token', token);
+                navigate('/home');
             } else if (response.status === 401) {
                 setErrorMessage('invalid email or password');
             } else {
@@ -65,39 +70,58 @@ export const AuthPage = ({ authmode }) => {
             setErrorMessage('Something went wrong!');
         }
     }
-    const handleSignup = (e) => {
+    const handleSignup = async (e) => {
         e.preventDefault();
-
         if (!signupUsername.trim()) {
             setErrorMessage('username is required.');
             return;
         }
-
         if (!signupEmail.trim()) {
             setErrorMessage('e-mail is required.');
             return;
         }
-
         if (!/^\S+@\S+\.\S+$/.test(signupEmail)) {
             setErrorMessage('enter a valid e-mail address.');
             return;
         }
-
         if (signupPassword.length < 8) {
             setErrorMessage('password must be at least 8 characters long.');
             return;
         }
-
         if (signupPassword !== signupConfirmPassword) {
             setErrorMessage('passwords do not match.');
             return;
         }
-        e.preventDefault();
-        console.log("Signup Data: ", { signupUsername, signupEmail, signupPassword, signupConfirmPassword });
+        try {
+            const response = await fetch(`${process.env.REACT_APP_API_URL}/signup`, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({
+                    name: signupUsername,
+                    email: signupEmail,
+                    password: signupPassword,
+                    role: signupRole,
+                }),
+            });
 
+            if (response.status === 200) {
+                const token = await response.text();
+                localStorage.setItem('token', token);
+                navigate('/home');
+            } else if (response.status === 409) {
+                setErrorMessage('User already exists with this e-mail address.');
+            } else {
+                setErrorMessage('Signup failed, please try again.');
+            }
+        } catch (error) {
+            console.error('Error:', error);
+            setErrorMessage('Something went wrong during signup!');
+        }
     }
     return (
-        <>
+        <div className='App'>
             <div className={`hero-frame centered ${pageMode === 'loginMode' ? 'move-right' : pageMode === 'signupMode' ? 'move-left' : ''}`}>
                 {(pageMode === 'signupMode') ?
                     <SignupHero /> : <LoginHero />
@@ -141,6 +165,6 @@ export const AuthPage = ({ authmode }) => {
                     </form>
                 </div>
             </div>
-        </>
+        </div>
     )
 }
